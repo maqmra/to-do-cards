@@ -1,9 +1,12 @@
 package com.todocards;
 
+import java.io.Serializable;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TasksService {
+public class TasksService implements Serializable {
     Map<String, Task> tasks = new HashMap<>();
 
     public Task add(Task task) {
@@ -30,8 +33,12 @@ public class TasksService {
         tasks.remove(task.getId());
     }
 
-    public Map<String, Task> get() {
-        return new HashMap<>(tasks);
+    public ArrayList<Task> get() {
+        return new ArrayList<>(tasks.values());
+    }
+
+    public void save(Path path, ArrayList<Task> tasks) {
+
     }
 
 }
