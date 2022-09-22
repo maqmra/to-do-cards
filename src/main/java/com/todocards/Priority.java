@@ -1,2 +1,7 @@
-package com.todocards;public enum Priority {
+package com.todocards;
+
+public enum Priority {
+    Low,
+    Medium,
+    High
 }
