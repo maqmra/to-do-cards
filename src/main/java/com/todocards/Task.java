@@ -30,4 +30,8 @@ public class Task {
     public String toString() {
         return content + ". Priority: " + priority;
     }
+
+    public String toCsv() {
+        return getId() + "," + getContent() + "," + getPriority() + "\n";
+    }
 }

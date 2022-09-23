@@ -1,10 +1,13 @@
 package com.todocards;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.nio.file.StandardOpenOption;
+import java.util.*;
 
 public class TasksService implements Serializable {
     Map<String, Task> tasks = new HashMap<>();
@@ -37,8 +40,33 @@ public class TasksService implements Serializable {
         return new ArrayList<>(tasks.values());
     }
 
-    public void save(Path path, ArrayList<Task> tasks) {
+    public void save(Path path) {
+        List<Task> taskList = new ArrayList<>(tasks.values());
+        try {
+            Files.writeString(path, "", StandardOpenOption.TRUNCATE_EXISTING);
+            for (Task task : taskList) {
+                Files.writeString(path, task.toCsv(), StandardOpenOption.APPEND);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    public void readCSV(Path path) {
+        Scanner sc = null;
+        try {
+            sc = new Scanner(new File(String.valueOf(path)));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("File not found");
+        }
+        sc.useDelimiter("");
+        while (sc.hasNext()) {
+            String s = sc.nextLine();
+            String[] result = s.split(",");
+            Task insertedTask = new Task(result[1], result[0]);
+            add(insertedTask);
+        }
+        sc.close();  //closes the scanner
     }
 
 }
