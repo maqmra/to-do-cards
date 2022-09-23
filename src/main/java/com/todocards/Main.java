@@ -23,7 +23,7 @@ public class Main {
         System.out.println("~~~~~~~~~~~~~~~~~~~~`");
 
 //        service.save(path);
-        service.readCSV(path);
+        service.readCsv(path);
         System.out.println("New task list");
         System.out.println(service.get());
 

@@ -52,7 +52,7 @@ public class TasksService implements Serializable {
         }
     }
 
-    public void readCSV(Path path) {
+    public void readCsv(Path path) {
         Scanner sc = null;
         try {
             sc = new Scanner(new File(String.valueOf(path)));
