@@ -63,7 +63,7 @@ public class TasksService implements Serializable {
         while (sc.hasNext()) {
             String s = sc.nextLine();
             String[] result = s.split(",");
-            Task insertedTask = new Task(result[1], result[0]);
+            Task insertedTask = new Task(result[1],Priority.valueOf(result[2]), result[0]);
             add(insertedTask);
         }
         sc.close();  //closes the scanner
