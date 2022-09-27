@@ -19,13 +19,11 @@ public class Main {
         service.update(task);
         System.out.println(service.get());
         Path path = Paths.get("C:\\Users\\Karolina\\Desktop\\tasks.txt");
-
-        System.out.println("~~~~~~~~~~~~~~~~~~~~`");
-
-//        service.save(path);
-        service.readCsv(path);
+        service.save(path);
+        TasksService readService = new TasksService();
+        readService.readCsv(path);
         System.out.println("New task list");
-        System.out.println(service.get());
+        System.out.println(readService.get());
 
     }
 
