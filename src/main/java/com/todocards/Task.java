@@ -4,6 +4,7 @@ public class Task {
     private final String content;
     private final Priority priority;
     private final String id;
+
     public Task(String content, Priority priority, String id) {
         this.content = content;
         this.priority = priority;
@@ -29,9 +30,5 @@ public class Task {
     @Override
     public String toString() {
         return content + ". Priority: " + priority;
-    }
-
-    public String toCsv() {
-        return getId() + "," + getContent() + "," + getPriority() + "\n";
     }
 }

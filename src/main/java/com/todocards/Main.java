@@ -16,7 +16,10 @@ public class Main {
         service.add(fourthTask);
         System.out.println(service.get());
         Task task = new Task("New task", "5");
+        Task fifthTask = new Task("Aaaa", "6");
         service.update(task);
+        service.add(fifthTask);
+        service.remove(firstTask);
         System.out.println(service.get());
         Path path = Paths.get("C:\\Users\\Karolina\\Desktop\\tasks.txt");
         service.save(path);
