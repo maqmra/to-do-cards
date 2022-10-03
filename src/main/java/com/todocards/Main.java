@@ -1,7 +1,7 @@
 package com.todocards;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import com.todocards.domain.Task;
+import com.todocards.domain.TasksService;
 
 public class Main {
     public static void main(String[] args) {
@@ -21,10 +21,9 @@ public class Main {
         service.add(fifthTask);
         service.remove(firstTask);
         System.out.println(service.get());
-        Path path = Paths.get("C:\\Users\\Karolina\\Desktop\\tasks.txt");
-        service.save(path);
+        service.save();
         TasksService readService = new TasksService();
-        readService.readCsv(path);
+        readService.read();
         System.out.println("New task list");
         System.out.println(readService.get());
 
