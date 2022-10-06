@@ -4,6 +4,11 @@ import java.util.Collection;
 import java.util.List;
 
 public interface TaskRepository {
-    List<Task> get();
-    void save(Collection<Task> tasks);
+
+    List<Task> getAll();
+
+    Task save(Collection<Task> tasks);
+    Task save(Task task);
+    Task update(Task task);
+    boolean deleteById(String id);
 }

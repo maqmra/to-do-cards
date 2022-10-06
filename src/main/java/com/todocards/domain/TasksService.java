@@ -6,44 +6,30 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TasksService {
+public class TasksService extends CsvTaskRepository{
     Map<String, Task> tasks = new HashMap<>();
     TaskRepository taskRepository = new CsvTaskRepository();
 
-    public Task add(Task task) {
-        if ((task.getId() == null) || (taskIdExist(task.getId()))) {
-            throw new CannotCreateTaskException();
-        }
-        tasks.put(task.getId(), task);
+    public Task save(Task task) {
+        taskRepository.save(task);
         return task;
     }
 
     public Task update(Task task) {
-        if ((task.getId() == null) || (!taskIdExist(task.getId()))) {
-            throw new CannotUpdateTaskException();
-        }
-        tasks.replace(task.getId(), task);
+        taskRepository.update(task);
         return task;
     }
 
-    private boolean taskIdExist(String id) {
-        return tasks.containsKey(id);
-    }
-
-    public void remove(Task task) {
-        tasks.remove(task.getId());
+    public void remove(String id) {
+        taskRepository.deleteById(id);
     }
 
     public ArrayList<Task> get() {
-        return new ArrayList<>(tasks.values());
-    }
-
-    public void save() {
-        taskRepository.save(tasks.values());
+        return new ArrayList<>(taskRepository.getAll());
     }
 
     public void read() {
-        for (Task task : taskRepository.get()) {
+        for (Task task : taskRepository.getAll()) {
             tasks.put(task.getId(), task);
         }
     }

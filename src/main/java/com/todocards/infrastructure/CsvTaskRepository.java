@@ -1,5 +1,7 @@
 package com.todocards.infrastructure;
 
+import com.todocards.domain.CannotCreateTaskException;
+import com.todocards.domain.CannotUpdateTaskException;
 import com.todocards.domain.Priority;
 import com.todocards.domain.Task;
 import com.todocards.domain.TaskRepository;
@@ -14,6 +16,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class CsvTaskRepository implements TaskRepository {
@@ -21,8 +24,8 @@ public class CsvTaskRepository implements TaskRepository {
     private final Path path = Paths.get("C:\\Users\\Karolina\\Desktop\\tasks.txt");
 
     @Override
-    public List<Task> get() {
-        final List<Task> tasks = new ArrayList<>();
+    public List<Task> getAll() {
+        ArrayList<Task> tasks = new ArrayList<>();
         try (Scanner sc = new Scanner(new File(String.valueOf(path)))) {
             sc.useDelimiter("");
             while (sc.hasNext()) {
@@ -38,17 +41,77 @@ public class CsvTaskRepository implements TaskRepository {
     }
 
     @Override
-    public void save(Collection<Task> tasks) {
+    public Task save(Collection<Task> tasks) {
         List<Task> taskList = new ArrayList<>(tasks);
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(String.valueOf(path), false));
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(String.valueOf(path), true));) {
             for (Task task : taskList) {
-                writer.append(toCsv(task));
+                if (!taskExists(task)) {
+                    writer.append(toCsv(task));
+                    return task;
+                } else {
+                    throw new CannotCreateTaskException();
+                }
             }
-            writer.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        return null;
+    }
+
+    @Override
+    public Task save(Task task) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(String.valueOf(path), true));) {
+            if (!taskExists(task)) {
+                writer.append(toCsv(task));
+                return task;
+            } else {
+                throw new CannotCreateTaskException();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean taskExists(Task task) {
+        for (Task taskFromList : getAll()) {
+            if (Objects.equals(taskFromList.getId(), task.getId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean taskExists(String id) {
+        for (Task taskFromList : getAll()) {
+            if (Objects.equals(taskFromList.getId(), id)) {
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    @Override
+    public Task update(Task task) {
+        if (taskExists(task)) {
+            getAll().set(getAll().indexOf(task), task);
+
+        } else {
+            throw new CannotUpdateTaskException();
+        }
+        return task;
+    }
+
+    @Override
+    public boolean deleteById(String id) {
+        for (Task task : getAll()) {
+            if (Objects.equals(task.getId(), id)) {
+                getAll().remove(task);
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 
     public String toCsv(Task task) {
