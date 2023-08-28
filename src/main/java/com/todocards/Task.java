@@ -11,8 +11,9 @@ public class Task {
     }
 
     public Task(String content, String id) {
-        this(content, Priority.Low, id);
+        this(content, Priority.LOW, id);
     }
+
 
     public String getContent() {
         return content;
