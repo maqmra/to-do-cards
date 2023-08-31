@@ -1,8 +1,8 @@
-package com.todocards;
+package com.todocards.repository;
 
-import java.sql.SQLException;
+import com.todocards.model.Task;
+
 import java.util.List;
-import java.util.Map;
 
 public interface TaskRepository {
     public void createTableTasks();

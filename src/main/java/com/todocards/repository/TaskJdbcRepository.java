@@ -1,4 +1,6 @@
-package com.todocards;
+package com.todocards.repository;
+
+import com.todocards.model.Task;
 
 import java.sql.*;
 import java.util.ArrayList;

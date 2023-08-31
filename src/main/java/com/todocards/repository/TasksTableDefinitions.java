@@ -1,4 +1,4 @@
-package com.todocards;
+package com.todocards.repository;
 
 public interface TasksTableDefinitions {
     String CONNECTION_STRING = "jdbc:postgresql://localhost:5432/todocards";

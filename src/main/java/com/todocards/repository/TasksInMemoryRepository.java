@@ -1,4 +1,8 @@
-package com.todocards;
+package com.todocards.repository;
+
+import com.todocards.model.Task;
+import com.todocards.exceptions.CannotCreateTaskException;
+import com.todocards.exceptions.CannotUpdateTaskException;
 
 import java.util.ArrayList;
 import java.util.HashMap;

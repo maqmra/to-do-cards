@@ -1,4 +1,4 @@
-package com.todocards;
+package com.todocards.model;
 
 public class Task {
     private final String content;
